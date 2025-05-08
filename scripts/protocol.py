@@ -96,24 +96,25 @@ class Polynomial(Message):
     def length_virtual(self):
         return self.degree_virtual() * 2**self.rate_bits()
     
-    # def auth_path_size(self):
-    #     if self.queries() == 0:
-    #         return 0
+    def auth_path_size(self):
+        if self.queries() == 0:
+            return 0
         
-    #     total_path_size = self.params.rom.authentication_path_size(self.length_virtual(), self.queries())
+        total_path_size = self.params.rom.authentication_path_size(self.length_virtual(), self.queries())
 
-    #     leaf_size = min(self.field_size() * self.fold_amount(), self.hash_size())
+        leaf_size = min(self.field_size() * self.fold_amount(), self.hash_size())
 
-    #     return total_path_size + self.queries() * leaf_size 
+        return total_path_size + self.queries() * leaf_size 
     
     def opening_size(self):
-        return self.queries() * self.hash_size() * self.fold_amount() * self.stack * log2(self.length_virtual())
+        return self.queries() * self.field_size() * self.fold_amount() * self.stack
+        # self.queries() * self.hash_size() * self.stack * self.fold_amount() * log2(self.length_virtual())
 
     def commitment_size(self):
         return self.hash_size()
 
     def argument_size(self):
-        return self.commitment_size() + self.opening_size()
+        return self.commitment_size() + self.auth_path_size() + self.opening_size()
     
     def proof_length(self):
         return self.length_real()

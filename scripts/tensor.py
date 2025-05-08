@@ -66,7 +66,7 @@ stir_params_common = {
     'pow': 0,
     'stopping_condition': 2**10,
     'conj': 1,
-    'fold': 4,
+    'fold': 16,
     'max_len_ratio': 2,
 }
 
